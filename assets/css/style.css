@@ -1,0 +1,12 @@
+/* Enter CSS Styling Here */
+body {
+	background-color: #ccc;
+}
+
+.main {
+	background-color: #FFF;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-top: 0px;
+	padding-bottom: 25px;
+}

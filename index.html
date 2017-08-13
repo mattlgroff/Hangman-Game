@@ -1,0 +1,115 @@
+<html>
+<head>
+
+	<title>Hangman by Matt Groff</title>
+
+	<!-- Hangman Favicon -->
+	<link href="assets/images/favicon.ico" rel="icon" type="image/x-icon" />
+
+    <!-- Bootstrap by Twitter -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+    <!-- Cosmo Bootstrap Theme -->
+    <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
+
+	<!-- Javascript -->
+	<script type="text/javascript" src="assets/javascript/game.js"></script>
+
+	<!-- My CSS -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+	<!--Begin Navbar -->
+	<nav class="navbar navbar-default">
+        <div class="container">
+         
+         	<!-- Begin Navbar Heading -->
+        	<div class="navbar-header">
+
+				<!-- Navbar Brand -->
+				<h2 class="navbar-brand">Hangman</h2>
+
+        	</div>
+
+			<!-- Navbar On The Right -->
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="https://mattlgroff.github.io/Bootstrap-Portfolio/">About the Developer</a></li>
+            </ul>
+          
+
+        </div>  <!-- End container -->
+
+    </nav> <!-- End Navbar -->
+    
+
+	<!-- Main Container -->
+    <div class="main container">
+
+		<!-- First Row of Main Container -->
+		<div class="row">
+
+			<!-- Left Column of Page -->
+			<div class="col-md-6 col-sm-6 col-xs-6">
+
+				<div class="row">
+					
+					<!-- Header for Left Page -->
+					<h1 id="guessesLeftHeader">7 Guesses Left</h1>	
+					<hr>			
+
+				</div>
+
+				<div class="row">
+
+					<!-- Change this picture with an array of 'src' url's with the id hangmanPicture -->
+					<img id="hangmanPicture" src="assets/images/pressAnyKey.png" class="img-responsive">
+
+				</div>
+
+				<div class="row">
+
+					<h1 id="winsHeader">Wins: 0</h1>
+
+				</div>
+
+
+			</div> <!-- End of Left Column of the Page -->
+
+
+			<!-- Right Column of Page -->
+			<div class="col-md-6 col-sm-6 col-xs-6">
+
+			
+				<div class="row">
+
+				<h1 id="blankWordHeader">Word Goes Here!</h1>	
+
+
+				</div>
+
+				<div class="row">
+
+					<h3>Guessed Letters:</h3>
+					<p id="guessedLettersP">
+					</p>
+
+				</div>
+
+
+			</div> <!-- End of Left Column of the Page -->
+
+
+
+		</div>  <!-- End of Row of Main Container -->
+		
+    </div> <!-- End of Main Container -->
+
+
+
+
+</body>
+
+</html>
