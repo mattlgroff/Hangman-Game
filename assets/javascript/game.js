@@ -82,6 +82,7 @@ document.onkeyup = function(event) {
 	        				//Needed if there is more than one of a letter.
 	        				if(currentWord[i] == keyHit) {
 
+
 	        					if (guessedLetters.indexOf(currentWord[i]) !== -1) {
 
 	        						//Update the displayedWordArray, remove underscore and replace our letter.
@@ -165,6 +166,9 @@ document.onkeyup = function(event) {
 	        			//Subtracting number of guesses left.
 	        			guessesLeft = guessesLeft -1;
 
+	        			//Playing Bad Guess Sound
+	        			document.getElementById('badGuessSound').play();
+
 	        			//Update our guesses left/image.
 	        			updateGuessesLeft();
 
@@ -212,18 +216,20 @@ function displayUnderscoredWord() {
 	document.getElementById("blankWordHeader").innerHTML = blankWord;
 }
 
+//Updates the displayed guessed letters on the HTML
 function displayGuessedLetters() {
 	guessedLettersF = guessedLettersPublic.toString();
 	guessedLettersF = guessedLettersF.replace(/,/g, '');
 	document.getElementById("guessedLettersP").innerHTML = guessedLettersF;
 }
 
+
 function updateGuessesLeft() {
 	document.getElementById("guessesLeftHeader").innerHTML = guessesLeft + " Guesses Left.";
 
 	//Ran out of guesses.
 		if (guessesLeft == 0) {
-			document.getElementById('badGuessSound').play();
+			document.getElementById('gameOverSound').play();
 
 			alert("You lose! Better luck next time. You get 12 guesses next time.");
 
@@ -236,6 +242,7 @@ function updateGuessesLeft() {
 
 }
 
+//Start a new game/round
 function newGame() {
 
 	//Only do newGame once.
@@ -259,7 +266,7 @@ function newGame() {
 	displayGuessedLetters();
 }
 
-
+//Update the wins on the screen
 function updateWins() {
 	document.getElementById("winsHeader").innerHTML = "Wins: " + wins;
 }

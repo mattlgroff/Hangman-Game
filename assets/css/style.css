@@ -19,6 +19,10 @@ body {
 	padding-top: 0px;
 	padding-bottom: 25px;
 	margin-bottom: 20px;
+	border-style: solid;
+	border-radius: 25px;
+	border-color: #419CEE;
+	border-width: 5px;
 }
 
 .rightSideMain {
@@ -39,4 +43,12 @@ body {
 
 .marginClass {
 	margin-top: 20px;
+}
+
+#hangmanPicture {
+	border-style: solid;
+	border-radius: 25px;
+	border-color: #FED420;
+	border-width: 5px;
+
 }
