@@ -44,9 +44,6 @@ document.onkeyup = function(event) {
 			//Play the "Any Key" wav file.
 			document.getElementById('anyKeySound').play();
 
-			//Set the picture to the gameplay picture, replacing the Press Any Key homer image.
-			document.getElementById('hangmanPicture').src = "assets/images/homerHangman.jpg"
-
 			//Run the new game function.
 			newGame();
 		}
@@ -243,10 +240,18 @@ function updateGuessesLeft() {
 	//Update the number of guesses left on the HTML.
 	document.getElementById("guessesLeftHeader").innerHTML = guessesLeft + " Guesses Left.";
 
+		if (guessesLeft == 1 ) {
+			//Set the picture to the GameOver image.
+			document.getElementById('hangmanPicture').src = "assets/images/gameOver.jpg"
+		}
+
+
 		//Ran out of guesses.
 		if (guessesLeft == 0) {
+
 			//Play the Game Over sound effect.
 			document.getElementById('gameOverSound').play();
+
 
 			//Alert that they lost the game.
 			alert("You lose! Better luck next time. You get 12 guesses next time.");
@@ -289,6 +294,9 @@ function newGame() {
 
 	//Display the guessed letters.
 	displayGuessedLetters();
+
+	//Set the picture back to normal Homer.
+	document.getElementById('hangmanPicture').src = "assets/images/homerHangman.jpg"
 }
 
 //Update the wins on the screen
