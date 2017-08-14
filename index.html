@@ -22,6 +22,16 @@
 
 <body>
 
+	<!-- Audio Files -->
+	<!-- Any Key -->
+	<audio id="anyKeySound" src="assets/audio/anyKey.wav"></audio>
+
+	<!-- D'oh -->
+	<audio id="badGuessSound" src="assets/audio/loss.wav"></audio>
+
+	<!-- Round win -->
+	<audio id="roundWinSound" src="assets/audio/win.wav"></audio>
+
 	<!--Begin Navbar -->
 	<nav class="navbar navbar-default">
         <div class="container">
@@ -30,12 +40,12 @@
         	<div class="navbar-header">
 
 				<!-- Navbar Brand -->
-				<h2 class="navbar-brand">Hangman</h2>
+				<h2 class="navbar-brand">Homer Simpson's Hangman</h2>
 
         	</div>
 
 			<!-- Navbar On The Right -->
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right marginClass">
               <li><a href="https://mattlgroff.github.io/Bootstrap-Portfolio/">About the Developer</a></li>
             </ul>
           
@@ -57,7 +67,7 @@
 				<div class="row">
 					
 					<!-- Header for Left Page -->
-					<h1 id="guessesLeftHeader">7 Guesses Left</h1>	
+					<h1 id="guessesLeftHeader">10 Guesses Left</h1>	
 					<hr>			
 
 				</div>
@@ -80,12 +90,14 @@
 
 
 			<!-- Right Column of Page -->
-			<div class="col-md-6 col-sm-6 col-xs-6">
+			<div class="col-md-6 col-sm-6 col-xs-6 rightSideMain">
 
 			
 				<div class="row">
 
-				<h1 id="blankWordHeader">Word Goes Here!</h1>	
+				<h1>Help Homer win Hangman!</h1>
+				<hr>	
+				<h1 id="blankWordHeader"></h1>
 
 
 				</div>

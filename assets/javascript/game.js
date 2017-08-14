@@ -8,7 +8,7 @@
 var wordNumber = 0;
 
 //The words in play.
-var wordArray = ["car", "cat", "dog", "rat", "hat", "mouse", "mickey", "javascript"];
+var wordArray = ["marge", "homer", "bart", "lisa", "maggie", "smithers", "milhouse", "krustys", "moe", "skinner", "flanders"];
 
 //currentWordArray
 //An array made from the currentWord being guessed. Not visible.
@@ -33,7 +33,7 @@ var alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 var hangmanPictureArray = [0, 1, 2, 3, 4, 5, 6, 7];
 
 //Start off with 7 guesses.
-var guessesLeft = 7;
+var guessesLeft = 10;
 
 //Only run the initial new game once when a key is pressed for the first time
 var newGameVar = true;
@@ -46,6 +46,8 @@ document.onkeyup = function(event) {
 
 		//Only runs the first time. newGame makes itself false.
 		if ( newGameVar ) {
+			document.getElementById('anyKeySound').play();
+			document.getElementById('hangmanPicture').src = "assets/images/homerHangman.jpg"
 			newGame();
 		}
 
@@ -129,12 +131,18 @@ document.onkeyup = function(event) {
 	        				console.log("wordNumber = " + wordNumber + " wordArray.length= " + wordArray.length);
 							if (wordNumber == wordArray.length -1) {
 								wordNumber = 0;
+								wins++;
+								updateWins();
+								document.getElementById('roundWinSound').play();
 								alert("You are out of words! Starting over from the beginning.");
 								newGame();
 							}
 	        				else{
+		        				document.getElementById('roundWinSound').play();
 		        				alert("You won the round! The word was " + currentWord + ". New round!");
 		        				wordNumber++
+		        				wins++;
+		        				updateWins();
 		        				newGame();
 	        				}
 	        			}
@@ -215,9 +223,11 @@ function updateGuessesLeft() {
 
 	//Ran out of guesses.
 		if (guessesLeft == 0) {
-			alert("You lose! Better luck next time. You get one extra guess.");
+			document.getElementById('badGuessSound').play();
 
-			guessesLeft = 8;
+			alert("You lose! Better luck next time. You get 12 guesses next time.");
+
+			guessesLeft = 12;
 
 			newGame();
 

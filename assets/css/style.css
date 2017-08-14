@@ -1,6 +1,15 @@
-/* Enter CSS Styling Here */
+@font-face {
+    font-family: 'simpsonfontregular';
+    src: url('simpsonfont_demo-webfont.woff2') format('woff2'),
+         url('simpsonfont_demo-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body {
-	background-color: #ccc;
+	background-color: #FED420;
+	background-image: "assets/images/background.jpg";
 }
 
 .main {
@@ -9,4 +18,24 @@ body {
 	padding-right: 50px;
 	padding-top: 0px;
 	padding-bottom: 25px;
+}
+
+.rightSideMain {
+	padding-left: 50px;
+	padding-right:50px;
+	padding-top: 0px;
+	padding-bottom: 25px;
+}
+
+.navbar-default {
+	background-color: #4A9CEE;
+	font-family: "simpsonfontregular";
+}
+
+.navbar-brand {
+	font-family: "simpsonfontregular";
+ }
+
+.marginClass {
+	margin-top: 20px;
 }
