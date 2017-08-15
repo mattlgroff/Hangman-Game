@@ -2,7 +2,12 @@
 var wordNumber = 0;
 
 //The words in play.
-var wordArray = ["marge", "homer", "bart", "lisa", "maggie", "smithers", "milhouse", "krusty", "moe", "skinner", "flanders", "selma"];
+var wordArray = ["marge", "homer", "bart", 
+				 "lisa", "maggie", "smithers",
+				 "milhouse", "krusty", "moe",
+				 "skinner", "flanders", "selma",
+				 "apu", "snake", "lenny", 
+				 "carl", "patty", "grandpa"];
 
 //currentWordArray
 //An array made from the currentWord being guessed. Not visible.

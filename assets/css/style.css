@@ -9,7 +9,7 @@
 
 body {
 	background-color: #FED420;
-	background-image: "assets/images/background.jpg";
+	background-image: url("../images/background.jpg");
 }
 
 .main {
