@@ -40,160 +40,160 @@ var newGameVar = true;
 //Tracking WINS
 var wins = 0;
 
+//Document.ready equivalent
+document.addEventListener("DOMContentLoaded", function(event) { 
+  //Play the "Any Key" wav file.
+		document.getElementById('anyKeySound').play();
+})
+
+
 //Key Input Event
 document.onkeyup = function(event) {
 
-		//Only runs the first time. newGame makes itself false after the first run.
-		if ( newGameVar ) {
+	//Only runs the first time. newGame makes itself false after the first run.
+	if ( newGameVar ) {
 
-			//Play the "Any Key" wav file.
-			document.getElementById('anyKeySound').play();
+		//Run the new game function.
+		newGame();
+	}
+	
+	//Runs every time a key is unpressed. Updates # of guesses left in the HTML.
+	updateGuessesLeft();
 
-			//Run the new game function.
-			newGame();
-		}
-		
-		//Runs every time a key is unpressed. Updates # of guesses left in the HTML.
-		updateGuessesLeft();
+	//Set a new variable, keyHit and set it to lowercase of the event.key
+    var keyHit = event.key.toLowerCase();
 
-		//Set a new variable, keyHit and set it to lowercase of the event.key
-        var keyHit = event.key.toLowerCase();
+    var keyHitIndex = alphabet.indexOf(keyHit);
 
-        var keyHitIndex = alphabet.indexOf(keyHit);
+    //if they key pressed is NOT in the alphabet array do this...
+    if(keyHitIndex == -1) {
 
-        //if they key pressed is NOT in the alphabet array do this...
-        if(keyHitIndex == -1) {
+    	//Log the key pressed.
+      	console.log("You pressed the '" + event.key + "' key.");
 
-        	//Log the key pressed.
-          	console.log("You pressed the '" + event.key + "' key.");
+      	//Log that the key pressed was not accepted into Hangman.
+      	console.log("This is not accepted into Hangman.");
+    }
+    else {
+    	
+    	//The key was a valid a-z key. Log this.
+    	console.log("You pressed the '" + event.key + "' key.")
 
-          	//Log that the key pressed was not accepted into Hangman.
-          	console.log("This is not accepted into Hangman.");
-        }
-        else {
-        	//The key was a valid a-z key. Log this.
-        	console.log("You pressed the '" + event.key + "' key.")
+		//If the typed letter is NOT in the list of guessed letters or curred word array..
+    	if(guessedLetters.indexOf(keyHit) == -1) {
+    		//Log to the console that the keyHit is not in the guessed letters yet.
+    		console.log(keyHit + " is not already in guessed letters.");
 
-        		//If the typed letter is NOT in the list of guessed letters or curred word array..
-	        	if(guessedLetters.indexOf(keyHit) == -1) {
-	        		//Log to the console that the keyHit is not in the guessed letters yet.
-	        		console.log(keyHit + " is not already in guessed letters.");
+    		//This only happens if it has NOT been guessed AND it is a correct letter.
+    		if(currentWord.indexOf(keyHit) !== -1) {
 
-	        		//This only happens if it has NOT been guessed AND it is a correct letter.
-	        		if(currentWord.indexOf(keyHit) !== -1) {
+    			//Correctly guessed the letter!
+    			console.log(keyHit + " was a correct letter!");
 
-	        			//Correctly guessed the letter!
-	        			console.log(keyHit + " was a correct letter!");
+    			//Running this for loop to check EVERY CHARACTER in the currentWord string for matching letters.
+    			for ( i = 0; i < currentWord.length; i++){
+    				
+    				//Needed if there is more than one of a letter.
+    				if(currentWord[i] == keyHit) {
 
-	        			//Running this for loop to check EVERY CHARACTER in the currentWord string for matching letters.
-	        			for ( i = 0; i < currentWord.length; i++){
-	        				//Needed if there is more than one of a letter.
-	        				if(currentWord[i] == keyHit) {
+    					//If the letter is correct, but previously guessed correctly in the for loop we will push the
+    					//guess to the HTML and the currentWordArray, but NOT add it to the guessedLettersP HTML.
+    					//This is so "A" doesn't show up as a guess twice.
+    					if (guessedLetters.indexOf(currentWord[i]) !== -1) {
 
-	        					//If the letter is correct, but previously guessed correctly in the for loop we will push the
-	        					//guess to the HTML and the currentWordArray, but NOT add it to the guessedLettersP HTML.
-	        					//This is so "A" doesn't show up as a guess twice.
-	        					if (guessedLetters.indexOf(currentWord[i]) !== -1) {
+    						//Update the displayedWordArray, remove underscore and replace our letter.
+    						displayedWordArray[i] = keyHit + " ";
 
-	        						//Update the displayedWordArray, remove underscore and replace our letter.
-	        						displayedWordArray[i] = keyHit + " ";
+    						//Display the guessed letters.
+        					displayGuessedLetters();
 
-	        						//Display the guessed letters.
-		        					displayGuessedLetters();
+        					//display the underscored word update
+        					displayUnderscoredWord();
 
-		        					//display the underscored word update
-		        					displayUnderscoredWord();
+        					//Update the hidden currentWord array.
+        					currentWordArray[i] = keyHit;
+    					}
+    					else {
+        					//Adding to hidden guessed letters
+        					guessedLetters.push(keyHit);
 
-		        					//Update the hidden currentWord array.
-		        					currentWordArray[i] = keyHit;
-	        					}
-	        					else {
-		        					//Adding to hidden guessed letters
-		        					guessedLetters.push(keyHit);
+        					//Push to public guessed letters
+        					guessedLettersPublic.push(keyHit + " ");
 
-		        					//Push to public guessed letters
-		        					guessedLettersPublic.push(keyHit + " ");
+        					//Update the displayedWordArray, remove underscore and replace our letter.
+        					displayedWordArray[i] = keyHit + " ";
+        					
+        					//Display the guessed letters.
+        					displayGuessedLetters();
 
-		        					//Update the displayedWordArray, remove underscore and replace our letter.
-		        					displayedWordArray[i] = keyHit + " ";
-		        					
-		        					//Display the guessed letters.
-		        					displayGuessedLetters();
+        					//display the underscored word update
+        					displayUnderscoredWord();
 
-		        					//display the underscored word update
-		        					displayUnderscoredWord();
+        					//Update the hidden currentWord array.
+        					currentWordArray[i] = keyHit;
+        				}
 
-		        					//Update the hidden currentWord array.
-		        					currentWordArray[i] = keyHit;
-		        					}
+        			}
+        				
+    			} //End For Loop
 
+				//If they win the round.
+				if ( currentWord.toString() == currentWordArray.toString().replace(/,/g, '') ) {
 
+					//Ran out of words
+					if (wordNumber == wordArray.length -1) {
+						wordNumber = 0;
+						wins++;
+						updateWins();
+						document.getElementById('roundWinSound').play();
+						alert("You are out of words! Starting over from the beginning.");
+						newGame();
+					}
+					else{
+	    				document.getElementById('roundWinSound').play();
+	    				alert("You won the round! The word was " + currentWord + ". New round!");
+	    				wordNumber++
+	    				wins++;
+	    				updateWins();
+	    				newGame();
+					}
+				}
+    			
+			}
+    		else {
 
+    			//Incorrectly guessed the letter.
+    			console.log(keyHit + " was NOT a correct letter!");
 
-	        				}
+    			//Adding to guessed letters.
+    			guessedLetters.push(keyHit);
 
-	        				
-	        			}
+    			//Adding to public guessed letters
+    			guessedLettersPublic.push(keyHit + " ");
 
-	    				//If they win the round.
-	        			if ( currentWord.toString() == currentWordArray.toString().replace(/,/g, '') ) {
+    			//Subtracting number of guesses left.
+    			guessesLeft = guessesLeft -1;
 
-	        				//Ran out of words
-							if (wordNumber == wordArray.length -1) {
-								wordNumber = 0;
-								wins++;
-								updateWins();
-								document.getElementById('roundWinSound').play();
-								alert("You are out of words! Starting over from the beginning.");
-								newGame();
-							}
-	        				else{
-		        				document.getElementById('roundWinSound').play();
-		        				alert("You won the round! The word was " + currentWord + ". New round!");
-		        				wordNumber++
-		        				wins++;
-		        				updateWins();
-		        				newGame();
-	        				}
-	        			}
-	        			
+    			//Playing Bad Guess Sound
+    			document.getElementById('badGuessSound').play();
 
-	        			
+    			//Update our guesses left/image.
+    			updateGuessesLeft();
 
-	        		}
-	        		else {
+    			//Display the guessed letters.
+    			displayGuessedLetters();
+    		}
 
-	        			//Incorrectly guessed the letter.
-	        			console.log(keyHit + " was NOT a correct letter!");
+    		
+    	}
+    	else if(guessedLetters.indexOf(keyHit)) {
+    		
+    		//Nothing happens for the user. They already guessed this letter.
+    		console.log("The letter '" + keyHit + "' has already been guessed.")
 
-	        			//Adding to guessed letters.
-	        			guessedLetters.push(keyHit);
+    	}
 
-	        			//Adding to public guessed letters
-	        			guessedLettersPublic.push(keyHit + " ");
-
-	        			//Subtracting number of guesses left.
-	        			guessesLeft = guessesLeft -1;
-
-	        			//Playing Bad Guess Sound
-	        			document.getElementById('badGuessSound').play();
-
-	        			//Update our guesses left/image.
-	        			updateGuessesLeft();
-
-	        			//Display the guessed letters.
-	        			displayGuessedLetters();
-	        		}
-
-	        		
-	        	}
-	        	else if(guessedLetters.indexOf(keyHit)) {
-	        		//Nothing happens for the user. They already guessed this letter.
-	        		console.log("The letter '" + keyHit + "' has already been guessed.")
-
-	        	}
-
-        }
+    }
 
 
 }
