@@ -42,8 +42,8 @@ var wins = 0;
 
 //Document.ready equivalent
 document.addEventListener("DOMContentLoaded", function(event) { 
-  //Play the "Any Key" wav file.
-		document.getElementById('anyKeySound').play();
+	//Play the "Any Key" wav file.
+	document.getElementById('anyKeySound').play();
 })
 
 
@@ -66,7 +66,7 @@ document.onkeyup = function(event) {
     var keyHitIndex = alphabet.indexOf(keyHit);
 
     //if they key pressed is NOT in the alphabet array do this...
-    if(keyHitIndex == -1) {
+    if(keyHitIndex === -1) {
 
     	//Log the key pressed.
       	console.log("You pressed the '" + event.key + "' key.");
@@ -80,7 +80,7 @@ document.onkeyup = function(event) {
     	console.log("You pressed the '" + event.key + "' key.")
 
 		//If the typed letter is NOT in the list of guessed letters or curred word array..
-    	if(guessedLetters.indexOf(keyHit) == -1) {
+    	if(guessedLetters.indexOf(keyHit) === -1) {
     		//Log to the console that the keyHit is not in the guessed letters yet.
     		console.log(keyHit + " is not already in guessed letters.");
 
@@ -94,7 +94,7 @@ document.onkeyup = function(event) {
     			for ( i = 0; i < currentWord.length; i++){
     				
     				//Needed if there is more than one of a letter.
-    				if(currentWord[i] == keyHit) {
+    				if(currentWord[i] === keyHit) {
 
     					//If the letter is correct, but previously guessed correctly in the for loop we will push the
     					//guess to the HTML and the currentWordArray, but NOT add it to the guessedLettersP HTML.
@@ -138,10 +138,10 @@ document.onkeyup = function(event) {
     			} //End For Loop
 
 				//If they win the round.
-				if ( currentWord.toString() == currentWordArray.toString().replace(/,/g, '') ) {
+				if ( currentWord.toString() === currentWordArray.toString().replace(/,/g, '') ) {
 
 					//Ran out of words
-					if (wordNumber == wordArray.length -1) {
+					if (wordNumber === wordArray.length -1) {
 						wordNumber = 0;
 						wins++;
 						updateWins();
@@ -245,14 +245,14 @@ function updateGuessesLeft() {
 	//Update the number of guesses left on the HTML.
 	document.getElementById("guessesLeftHeader").innerHTML = guessesLeft + " Guesses Left.";
 
-		if (guessesLeft == 1 ) {
+		if (guessesLeft === 1 ) {
 			//Set the picture to the GameOver image.
 			document.getElementById('hangmanPicture').src = "assets/images/gameOver.jpg"
 		}
 
 
 		//Ran out of guesses.
-		if (guessesLeft == 0) {
+		if (guessesLeft === 0) {
 
 			//Play the Game Over sound effect.
 			document.getElementById('gameOverSound').play();
