@@ -1,6 +1,3 @@
-//Begin at 0
-var wordNumber = 0;
-
 //The words in play.
 var wordArray = ["marge", "homer", "bart", 
 				 "lisa", "maggie", "smithers",
@@ -8,6 +5,9 @@ var wordArray = ["marge", "homer", "bart",
 				 "skinner", "flanders", "selma",
 				 "apu", "snake", "lenny", 
 				 "carl", "patty", "grandpa"];
+
+//RNG 
+var wordNumber;
 
 //currentWordArray
 //An array made from the currentWord being guessed. Not visible.
@@ -39,6 +39,8 @@ var newGameVar = true;
 
 //Tracking WINS
 var wins = 0;
+
+var numbersUsed = [];
 
 //Document.ready equivalent
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -140,23 +142,13 @@ document.onkeyup = function(event) {
 				//If they win the round.
 				if ( currentWord.toString() === currentWordArray.toString().replace(/,/g, '') ) {
 
-					//Ran out of words
-					if (wordNumber === wordArray.length -1) {
-						wordNumber = 0;
-						wins++;
-						updateWins();
-						document.getElementById('roundWinSound').play();
-						alert("You are out of words! Starting over from the beginning.");
-						newGame();
-					}
-					else{
-	    				document.getElementById('roundWinSound').play();
-	    				alert("You won the round! The word was " + currentWord + ". New round!");
-	    				wordNumber++
-	    				wins++;
-	    				updateWins();
-	    				newGame();
-					}
+    				document.getElementById('roundWinSound').play();
+    				alert("You won the round! The word was " + currentWord + ". New round!");
+    				newWordNumber();
+    				wins++;
+    				updateWins();
+    				newGame();
+					
 				}
     			
 			}
@@ -279,6 +271,9 @@ function newGame() {
 	//Only do newGame once.
 	newGameVar = false;
 
+	//Set wordNumber to random place in the array
+	wordNumber = Math.floor((Math.random() * wordArray.length));
+
 	//Set the currentWord to the next in the array of words (wordArray)
 	currentWord = wordArray[wordNumber];
 
@@ -307,4 +302,11 @@ function newGame() {
 //Update the wins on the screen
 function updateWins() {
 	document.getElementById("winsHeader").innerHTML = "Wins: " + wins;
+}
+
+//New Word RNG
+function newWordNumber() {
+	wordNumber = Math.floor((Math.random() * wordArray.length));
+
+	return wordNumber;
 }
