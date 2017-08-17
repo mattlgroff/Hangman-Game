@@ -306,7 +306,7 @@ function updateWins() {
 
 //New Word RNG
 function newWordNumber() {
-	wordNumber = Math.floor((Math.random() * wordArray.length));
+	wordNumber = Math.floor((Math.random() * wordArray.length - 1));
 
 	return wordNumber;
 }
