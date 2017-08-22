@@ -1,46 +1,129 @@
-//The words in play.
-var wordArray = ["marge", "homer", "bart", 
+//Hangman Object
+hangmanObj = {
+	wordArray: ["marge", "homer", "bart", 
 				 "lisa", "maggie", "smithers",
 				 "milhouse", "krusty", "moe",
 				 "skinner", "flanders", "selma",
 				 "apu", "snake", "lenny", 
-				 "carl", "patty", "grandpa"];
+				 "carl", "patty", "grandpa"],
+	wordNumber: 0,
+	currentWordArray: [],
+	alphabet: "abcdefghijklmnopqrstuvwxyz".split(""),
+	guessedLetters: [],
+	guessedLettersPublic: [],
+	displayedWordArray: [],
+	hangmanPictureArray: [0, 1, 2, 3, 4, 5, 6, 7],
+	guessesLeft: 10,
+	newGameVar: true,
+	wins: 0,
+	numbersUsed: [],
+	underscoreWord: function(word) {
+		//Clear out the old displayedWordArray if there was one.
+		this.displayedWordArray = [];
 
-//RNG 
-var wordNumber;
+		//Replace each letter with "_ " in the word given to the function.
+		for (i = 0; i < word.length; i++){
+			this.displayedWordArray[i] = "_ ";
+		}
+	},
+	updateGuessesLeft: function() {
+		//Update the number of guesses left on the HTML.
+		document.getElementById("guessesLeftHeader").innerHTML = this.guessesLeft + " Guesses Left.";
 
-//currentWordArray
-//An array made from the currentWord being guessed. Not visible.
-var currentWordArray = [];
+		if (this.guessesLeft === 1 ) {
+			//Set the picture to the GameOver image.
+			document.getElementById('hangmanPicture').src = "assets/images/gameOver.jpg"
+		}
 
-//The current word in play. Start in order in the wordArray from 0.
-var currentWord = wordArray[wordNumber];
 
-//Guessed letters array.
-var guessedLetters = [];
+		//Ran out of guesses.
+		if (this.guessesLeft === 0) {
 
-//Public guessed letters array
-var guessedLettersPublic = [];
+			//Play the Game Over sound effect.
+			document.getElementById('gameOverSound').play();
 
-//Displayed Word Array. This will always start out as underscore strings, instead of letters.
-var displayedWordArray = [];
 
-//Make an array from the alphabet.
-var alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+			//Alert that they lost the game.
+			alert("You lose! Better luck next time. You get 12 guesses next time.");
 
-//Directly changes depending on guessesLeft.
-var hangmanPictureArray = [0, 1, 2, 3, 4, 5, 6, 7];
+			//Raising the number of guesses left to 12, if the user loses.
+			this.guessesLeft = 12;
 
-//Start off with 7 guesses.
-var guessesLeft = 10;
+			//Begin a new game.
+			this.newGame();
 
-//Only run the initial new game once when a key is pressed for the first time
-var newGameVar = true;
+			//Set the number of guessed left after beginning the new game.
+			document.getElementById("guessesLeftHeader").innerHTML = this.guessesLeft + " Guesses Left.";
+		}
 
-//Tracking WINS
-var wins = 0;
+	},
+	displayUnderscoredWord: function() {
+		//set blankWord to an empty string to avoid null errors
+		var blankWord = " ";
 
-var numbersUsed = [];
+		//set blankWord to the displayedArray.toString. This has commas in it.
+		blankWord = this.displayedWordArray.toString();
+
+		//Remove commas from the new blankWord string. Replace with nothing.
+		blankWord = blankWord.replace(/,/g, '');
+
+		//Set the HTML ID "blankWordHeader" to our blankWord string.
+		document.getElementById("blankWordHeader").innerHTML = blankWord;
+	},
+	displayGuessedLetters: function() {
+		//sets guessedLettersF to a string from the public guessed letters array.
+		guessedLettersF = this.guessedLettersPublic.toString();
+
+		//Remove commas from the guessedLettersF string.
+		guessedLettersF = guessedLettersF.replace(/,/g, '');
+
+		//Update the guessed letters publicly facing HTML with our new value.
+		document.getElementById("guessedLettersP").innerHTML = guessedLettersF;
+	},
+	newGame: function() {
+		//Only do newGame once.
+		this.newGameVar = false;
+
+		//Set wordNumber to random place in the array
+		this.wordNumber = Math.floor((Math.random() * this.wordArray.length));
+
+		//Set the currentWord to the next in the array of words (wordArray)
+		this.currentWord = this.wordArray[this.wordNumber];
+
+		//Blank out the currentWordArray, which is used to store correctly guessed letters.
+		this.currentWordArray = [];
+
+		//Blank out the guessedLetters array.
+		this.guessedLetters = [];
+
+		//Blank out the guesstLettersPublic array. This is the client-facing version.
+		this.guessedLettersPublic = [];
+
+		//Makes currentWord underscored in the displayedWordArray.
+		this.underscoreWord(this.currentWord);
+
+		//Updated the displayedWordArray.
+		this.displayUnderscoredWord();
+
+		//Display the guessed letters.
+		this.displayGuessedLetters();
+
+		//Set the picture back to normal Homer.
+		document.getElementById('hangmanPicture').src = "assets/images/homerHangman.jpg"
+	},
+	updateWins: function() {
+		document.getElementById("winsHeader").innerHTML = "Wins: " + this.wins;
+	},
+	newWordNumber: function() {
+		this.wordNumber = Math.floor((Math.random() * this.wordArray.length - 1));
+
+		return this.wordNumber;
+	}
+}
+
+
+var currentWord = hangmanObj.wordArray[hangmanObj.wordNumber];
+
 
 //Document.ready equivalent
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -53,19 +136,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
 document.onkeyup = function(event) {
 
 	//Only runs the first time. newGame makes itself false after the first run.
-	if ( newGameVar ) {
+	if ( hangmanObj.newGameVar ) {
 
 		//Run the new game function.
-		newGame();
+		hangmanObj.newGame();
 	}
 	
 	//Runs every time a key is unpressed. Updates # of guesses left in the HTML.
-	updateGuessesLeft();
+	hangmanObj.updateGuessesLeft();
 
 	//Set a new variable, keyHit and set it to lowercase of the event.key
     var keyHit = event.key.toLowerCase();
 
-    var keyHitIndex = alphabet.indexOf(keyHit);
+    var keyHitIndex = hangmanObj.alphabet.indexOf(keyHit);
 
     //if they key pressed is NOT in the alphabet array do this...
     if(keyHitIndex === -1) {
@@ -82,57 +165,57 @@ document.onkeyup = function(event) {
     	console.log("You pressed the '" + event.key + "' key.")
 
 		//If the typed letter is NOT in the list of guessed letters or curred word array..
-    	if(guessedLetters.indexOf(keyHit) === -1) {
+    	if(hangmanObj.guessedLetters.indexOf(keyHit) === -1) {
     		//Log to the console that the keyHit is not in the guessed letters yet.
     		console.log(keyHit + " is not already in guessed letters.");
 
     		//This only happens if it has NOT been guessed AND it is a correct letter.
-    		if(currentWord.indexOf(keyHit) !== -1) {
+    		if(hangmanObj.currentWord.indexOf(keyHit) !== -1) {
 
     			//Correctly guessed the letter!
     			console.log(keyHit + " was a correct letter!");
 
     			//Running this for loop to check EVERY CHARACTER in the currentWord string for matching letters.
-    			for ( i = 0; i < currentWord.length; i++){
+    			for ( i = 0; i < hangmanObj.currentWord.length; i++){
     				
     				//Needed if there is more than one of a letter.
-    				if(currentWord[i] === keyHit) {
+    				if(hangmanObj.currentWord[i] === keyHit) {
 
     					//If the letter is correct, but previously guessed correctly in the for loop we will push the
     					//guess to the HTML and the currentWordArray, but NOT add it to the guessedLettersP HTML.
     					//This is so "A" doesn't show up as a guess twice.
-    					if (guessedLetters.indexOf(currentWord[i]) !== -1) {
+    					if (hangmanObj.guessedLetters.indexOf(currentWord[i]) !== -1) {
 
     						//Update the displayedWordArray, remove underscore and replace our letter.
-    						displayedWordArray[i] = keyHit + " ";
+    						hangmanObj.displayedWordArray[i] = keyHit + " ";
 
     						//Display the guessed letters.
-        					displayGuessedLetters();
+        					hangmanObj.displayGuessedLetters();
 
         					//display the underscored word update
-        					displayUnderscoredWord();
+        					hangmanObj.displayUnderscoredWord();
 
         					//Update the hidden currentWord array.
-        					currentWordArray[i] = keyHit;
+        					hangmanObj.currentWordArray[i] = keyHit;
     					}
     					else {
         					//Adding to hidden guessed letters
-        					guessedLetters.push(keyHit);
+        					hangmanObj.guessedLetters.push(keyHit);
 
         					//Push to public guessed letters
-        					guessedLettersPublic.push(keyHit + " ");
+        					hangmanObj.guessedLettersPublic.push(keyHit + " ");
 
         					//Update the displayedWordArray, remove underscore and replace our letter.
-        					displayedWordArray[i] = keyHit + " ";
+        					hangmanObj.displayedWordArray[i] = keyHit + " ";
         					
         					//Display the guessed letters.
-        					displayGuessedLetters();
+        					hangmanObj.displayGuessedLetters();
 
         					//display the underscored word update
-        					displayUnderscoredWord();
+        					hangmanObj.displayUnderscoredWord();
 
         					//Update the hidden currentWord array.
-        					currentWordArray[i] = keyHit;
+        					hangmanObj.currentWordArray[i] = keyHit;
         				}
 
         			}
@@ -140,14 +223,14 @@ document.onkeyup = function(event) {
     			} //End For Loop
 
 				//If they win the round.
-				if ( currentWord.toString() === currentWordArray.toString().replace(/,/g, '') ) {
+				if ( hangmanObj.currentWord.toString() === hangmanObj.currentWordArray.toString().replace(/,/g, '') ) {
 
     				document.getElementById('roundWinSound').play();
-    				alert("You won the round! The word was " + currentWord + ". New round!");
-    				newWordNumber();
-    				wins++;
-    				updateWins();
-    				newGame();
+    				alert("You won the round! The word was " + hangmanObj.currentWord + ". New round!");
+    				hangmanObj.newWordNumber();
+    				hangmanObj.wins++;
+    				hangmanObj.updateWins();
+    				hangmanObj.newGame();
 					
 				}
     			
@@ -158,27 +241,27 @@ document.onkeyup = function(event) {
     			console.log(keyHit + " was NOT a correct letter!");
 
     			//Adding to guessed letters.
-    			guessedLetters.push(keyHit);
+    			hangmanObj.guessedLetters.push(keyHit);
 
     			//Adding to public guessed letters
-    			guessedLettersPublic.push(keyHit + " ");
+    			hangmanObj.guessedLettersPublic.push(keyHit + " ");
 
     			//Subtracting number of guesses left.
-    			guessesLeft = guessesLeft -1;
+    			hangmanObj.guessesLeft--;
 
     			//Playing Bad Guess Sound
     			document.getElementById('badGuessSound').play();
 
     			//Update our guesses left/image.
-    			updateGuessesLeft();
+    			hangmanObj.updateGuessesLeft();
 
     			//Display the guessed letters.
-    			displayGuessedLetters();
+    			hangmanObj.displayGuessedLetters();
     		}
 
     		
     	}
-    	else if(guessedLetters.indexOf(keyHit)) {
+    	else if(hangmanObj.guessedLetters.indexOf(keyHit)) {
     		
     		//Nothing happens for the user. They already guessed this letter.
     		console.log("The letter '" + keyHit + "' has already been guessed.")
@@ -188,125 +271,4 @@ document.onkeyup = function(event) {
     }
 
 
-}
-
-
-//Changes any array into underscores of the same length.
-function underscoreWord(word) {
-
-	//Clear out the old displayedWordArray if there was one.
-	displayedWordArray = [];
-
-	//Replace each letter with "_ " in the word given to the function.
-	for (i = 0; i < word.length; i++){
-		displayedWordArray[i] = "_ ";
-	}
-
-}
-
-//Displays the underscored word to the screen. 
-function displayUnderscoredWord() {
-
-	//set blankWord to an empty string to avoid null errors
-	var blankWord = " ";
-
-	//set blankWord to the displayedArray.toString. This has commas in it.
-	blankWord = displayedWordArray.toString();
-
-	//Remove commas from the new blankWord string. Replace with nothing.
-	blankWord = blankWord.replace(/,/g, '');
-
-	//Set the HTML ID "blankWordHeader" to our blankWord string.
-	document.getElementById("blankWordHeader").innerHTML = blankWord;
-}
-
-//Updates the displayed guessed letters on the HTML
-function displayGuessedLetters() {
-	//sets guessedLettersF to a string from the public guessed letters array.
-	guessedLettersF = guessedLettersPublic.toString();
-
-	//Remove commas from the guessedLettersF string.
-	guessedLettersF = guessedLettersF.replace(/,/g, '');
-
-	//Update the guessed letters publicly facing HTML with our new value.
-	document.getElementById("guessedLettersP").innerHTML = guessedLettersF;
-}
-
-//Update guesses left. Self explanatory.
-function updateGuessesLeft() {
-	//Update the number of guesses left on the HTML.
-	document.getElementById("guessesLeftHeader").innerHTML = guessesLeft + " Guesses Left.";
-
-		if (guessesLeft === 1 ) {
-			//Set the picture to the GameOver image.
-			document.getElementById('hangmanPicture').src = "assets/images/gameOver.jpg"
-		}
-
-
-		//Ran out of guesses.
-		if (guessesLeft === 0) {
-
-			//Play the Game Over sound effect.
-			document.getElementById('gameOverSound').play();
-
-
-			//Alert that they lost the game.
-			alert("You lose! Better luck next time. You get 12 guesses next time.");
-
-			//Raising the number of guesses left to 12, if the user loses.
-			guessesLeft = 12;
-
-			//Begin a new game.
-			newGame();
-
-			//Set the number of guessed left after beginning the new game.
-			document.getElementById("guessesLeftHeader").innerHTML = guessesLeft + " Guesses Left.";
-		}
-
-}
-
-//Start a new game/round
-function newGame() {
-
-	//Only do newGame once.
-	newGameVar = false;
-
-	//Set wordNumber to random place in the array
-	wordNumber = Math.floor((Math.random() * wordArray.length));
-
-	//Set the currentWord to the next in the array of words (wordArray)
-	currentWord = wordArray[wordNumber];
-
-	//Blank out the currentWordArray, which is used to store correctly guessed letters.
-	currentWordArray = [];
-
-	//Blank out the guessedLetters array.
-	guessedLetters = [];
-
-	//Blank out the guesstLettersPublic array. This is the client-facing version.
-	guessedLettersPublic = [];
-
-	//Makes currentWord underscored in the displayedWordArray.
-	underscoreWord(currentWord);
-
-	//Updated the displayedWordArray.
-	displayUnderscoredWord();
-
-	//Display the guessed letters.
-	displayGuessedLetters();
-
-	//Set the picture back to normal Homer.
-	document.getElementById('hangmanPicture').src = "assets/images/homerHangman.jpg"
-}
-
-//Update the wins on the screen
-function updateWins() {
-	document.getElementById("winsHeader").innerHTML = "Wins: " + wins;
-}
-
-//New Word RNG
-function newWordNumber() {
-	wordNumber = Math.floor((Math.random() * wordArray.length - 1));
-
-	return wordNumber;
 }
