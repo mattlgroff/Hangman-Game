@@ -72,7 +72,7 @@ hangmanObj = {
 	},
 	displayGuessedLetters: function() {
 		//sets guessedLettersF to a string from the public guessed letters array.
-		guessedLettersF = this.guessedLettersPublic.toString();
+		var guessedLettersF = this.guessedLettersPublic.toString();
 
 		//Remove commas from the guessedLettersF string.
 		guessedLettersF = guessedLettersF.replace(/,/g, '');
@@ -184,7 +184,7 @@ document.onkeyup = function(event) {
     					//If the letter is correct, but previously guessed correctly in the for loop we will push the
     					//guess to the HTML and the currentWordArray, but NOT add it to the guessedLettersP HTML.
     					//This is so "A" doesn't show up as a guess twice.
-    					if (hangmanObj.guessedLetters.indexOf(currentWord[i]) !== -1) {
+    					if (hangmanObj.guessedLetters.indexOf(hangmanObj.currentWord[i]) !== -1) {
 
     						//Update the displayedWordArray, remove underscore and replace our letter.
     						hangmanObj.displayedWordArray[i] = keyHit + " ";
